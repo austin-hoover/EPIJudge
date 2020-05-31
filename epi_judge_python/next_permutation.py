@@ -2,32 +2,35 @@ from typing import List
 
 from test_framework import generic_test
 
-
+                                                                     #
 def next_permutation(perm: List[int]) -> List[int]:
-    # Check for short arrays
+
+    # Check for array of length 1
     n = len(perm)
     if n < 2:
         return []
+
     # Try to swap last two elements
     if perm[-1] > perm[-2]:
         perm[-1], perm[-2] = perm[-2], perm[-1]
     else:
-        # Go back until we find an index to be incremented
+        # Travel backwards until we find perm[i] < perm[i+1]
         i = n - 2
         while perm[i] >= perm[i + 1]:
             i -= 1
-            if i < 0: # Last dictionary sorted permutation
+            if i < 0:  # last permutation
                 return []
-        # Find smallest element in perm[i+1] which is larger than perm[i]
-        i_next_largest = i + 1
-        for j in range(i + 2, n):
-            if perm[j] > perm[i] and perm[j] < perm[i_next_largest]:
-                i_next_largest = j
-        # Move that element and sort the remaining array
-        perm[i], perm[i_next_largest] = perm[i_next_largest], perm[i]
-        perm[i+1:] = sorted(perm[i+1:])
+        # Travel backwards from end of array to find smallest
+        # element in perm[i+1:] larger than perm[i], then swap
+        # it with perm[i].
+        for j in reversed(range(i+1, n)):
+            if perm[j] > perm[i]:
+                perm[j], perm[i] = perm[i], perm[j]
+                break
+        # perm[i+1:] is already sorted in descending order,
+        # but it now needs to be in ascending order.
+        perm[i+1:] = reversed(perm[i+1:])
     return perm
-
 
 if __name__ == '__main__':
     exit(
