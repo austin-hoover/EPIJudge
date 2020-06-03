@@ -10,8 +10,12 @@ from test_framework.test_utils import enable_executor_hook
 
 
 def compute_random_permutation(n: int) -> List[int]:
-    # TODO - you fill in here.
-    return []
+    import random
+    A = list(range(n))
+    for i in range(n):
+        r = random.randint(i, n-1)
+        A[i], A[r] = A[r], A[i]
+    return A
 
 
 @enable_executor_hook
