@@ -1,6 +1,8 @@
 import collections
 import functools
 import math
+import random
+import itertools
 from typing import List
 
 from test_framework import generic_test
@@ -10,9 +12,15 @@ from test_framework.test_utils import enable_executor_hook
 
 def nonuniform_random_number_generation(values: List[int],
                                         probabilities: List[float]) -> int:
-    # TODO - you fill in here.
-    return 0
 
+    # Find cumulative probabilities
+    F = list(itertools.accumulate(probabilities))
+    # Choose random element
+    r = random.random()
+    # Search for correct position in F
+    for i in range(len(F)):
+        if r <= F[i]:
+            return values[i]
 
 @enable_executor_hook
 def nonuniform_random_number_generation_wrapper(executor, values,
