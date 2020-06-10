@@ -2,8 +2,10 @@ from test_framework import generic_test
 
 
 def ss_decode_col_id(col: str) -> int:
-    # TODO - you fill in here.
-    return 0
+    n = 0
+    for i, letter in enumerate(reversed(col)):
+        n += (26**i) * (ord(letter) - ord('A') + 1)
+    return n
 
 
 if __name__ == '__main__':
