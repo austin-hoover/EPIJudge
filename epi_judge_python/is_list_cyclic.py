@@ -6,11 +6,44 @@ from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
-
-def has_cycle(head: ListNode) -> Optional[ListNode]:
-    # TODO - you fill in here.
+# O(n^2) solution
+def has_cycle_nsquared(head: ListNode) -> Optional[ListNode]:
+    nsteps = 1
+    x = head.next
+    while x:
+        # Check for cycles
+        y = head
+        for _ in range(nsteps):
+            if y is x:
+                return y
+            y = y.next
+        # Advance x
+        x = x.next
+        nsteps += 1
     return None
+#
+# O(n) solution. x takes steps of size 1 while y takes steps of size two
+def has_cycle(head: ListNode) -> Optional[ListNode]:
 
+    def cycle_length(node):
+        x, length = node, 0
+        while True:
+            length += 1
+            x = x.next
+            if x is node:
+                return length
+
+    slow = fast = head
+    while fast and fast.next:
+        slow, fast = slow.next, fast.next.next
+        if slow is fast:
+            x = y = head
+            for _ in range(cycle_length(slow)):
+                y = y.next
+            while x is not y:
+                x, y = x.next, y.next
+            return x
+    return None
 
 @enable_executor_hook
 def has_cycle_wrapper(executor, head, cycle_idx):
