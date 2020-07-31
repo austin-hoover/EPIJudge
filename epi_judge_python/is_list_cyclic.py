@@ -24,13 +24,12 @@ def has_cycle_nsquared(head: ListNode) -> Optional[ListNode]:
 #
 # O(n) solution. x takes steps of size 1 while y takes steps of size two
 def has_cycle(head: ListNode) -> Optional[ListNode]:
-
-    def cycle_length(node):
-        x, length = node, 0
+    def cycle_length(start):
+        x, length = start, 0
         while True:
             length += 1
             x = x.next
-            if x is node:
+            if x is start:
                 return length
 
     slow = fast = head

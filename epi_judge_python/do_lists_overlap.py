@@ -6,8 +6,31 @@ from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
+from is_list_cyclic import has_cycle
+from do_terminated_lists_overlap import overlapping_no_cycle_lists
 
 def overlapping_lists(l0: ListNode, l1: ListNode) -> Optional[ListNode]:
+
+    def cycle_length(start):
+        x, length = start, 0
+        while True:
+            length += 1
+            x = x.next
+            if x is start:
+                return length
+
+    x0, x1 = has_cycle(l0), has_cycle(l1)
+    n_cyclic = (x0 is not None) + (x1 is not None)
+
+    if n_cyclic == 0:
+        return overlapping_no_cycle_lists(l0, l1)
+    elif n_cyclic == 1:
+        return None
+
+    for _ in range(cycle_length(x0)):
+        if x0 is x1:
+            return x0
+        x0 = x0.next
 
     return None
 

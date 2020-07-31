@@ -17,9 +17,10 @@ def overlapping_no_cycle_lists(l0: ListNode, l1: ListNode) -> ListNode:
 
     # Remove offset
     len0, len1 = num_nodes(l0), num_nodes(l1)
-    if len0 < len1
+    C = len0 - len1
+    if C < 0:
         l0, l1, = l1, l0
-    for _ in range(len0 - len1):
+    for _ in range(abs(C)):
         l0 = l0.next
 
     # Check for overlap
