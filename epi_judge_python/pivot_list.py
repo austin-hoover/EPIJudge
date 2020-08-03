@@ -7,9 +7,50 @@ from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
 
-def list_pivoting(l: ListNode, x: int) -> Optional[ListNode]:
-    # TODO - you fill in here.
-    return None
+def remove_and_insert(insert_after, remove_after):
+    # Remove
+    node = remove_after.next
+    remove_after.next = remove_after.next.next
+    # Insert
+    node.next = insert_after.next
+    insert_after.next = node
+
+
+def list_pivoting(L: ListNode, x: int) -> Optional[ListNode]:
+
+    if L is None or L.next is None:
+        return L
+
+    dummy_head = ListNode(0, L)
+
+    # Find first pivot
+    pivot = dummy_head
+    while pivot.next and pivot.next.data < x:
+        pivot = pivot.next
+
+    # Insert after pivot: all nodes with node.data < x
+    node = pivot
+    while node.next:
+        if node.next.data < x:
+            remove_and_insert(pivot, node)
+            pivot = pivot.next
+        else:
+            node = node.next
+
+    # Update pivot
+    while pivot.next and pivot.next.data <= x:
+        pivot = pivot.next
+
+    # Insert after pivot: all nodes with node.data == x
+    node = pivot
+    while node.next:
+        if node.next.data == x:
+            remove_and_insert(pivot, node)
+            pivot = pivot.next
+        else:
+            node = node.next
+
+    return dummy_head.next
 
 
 def linked_to_list(l):
