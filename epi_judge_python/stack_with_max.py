@@ -3,9 +3,14 @@ from test_framework.test_failure import TestFailure
 
 
 class Stack:
+
+    ElementWithCachedMax = collections.namedtuple('ElementWithCachedMax',
+                                                  ('element', 'max'))
+    def __init__(self):
+        self.elements = []
+
     def empty(self) -> bool:
-        # TODO - you fill in here.
-        return True
+        return len(self.elements) == 0
 
     def max(self) -> int:
         # TODO - you fill in here.
