@@ -10,9 +10,25 @@ from test_framework.test_utils import enable_executor_hook
 
 def lca(tree: BinaryTreeNode, node0: BinaryTreeNode,
         node1: BinaryTreeNode) -> Optional[BinaryTreeNode]:
-    # TODO - you fill in here.
-    return None
 
+    def check(root, x):
+        # Check if x is in the tree
+        if root is x:
+            return True
+        elif not root:
+            return False
+        return check(root.left, x) or check(root.right, x)
+
+    if not tree:
+        return None
+
+    while tree:
+        if check(tree.left, node0) and check(tree.left, node1):
+            tree = tree.left
+        elif check(tree.right, node0) and check(tree.right, node1):
+            tree = tree.right
+        else:
+            return tree
 
 @enable_executor_hook
 def lca_wrapper(executor, tree, key1, key2):
